@@ -7,27 +7,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import neo4j from "neo4j-driver";
-export class Neo4JDriver {
+import { promises as fs } from "fs";
+import Path from "path";
+import { Recipe } from "./Recipe";
+export class DataLayer {
     constructor() {
-        this._driver = neo4j.driver("neo4j://localhost:7687/neo4j", neo4j.auth.basic("neo4j", "neo4j"));
+        this._recipes = [];
     }
-    close() {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield this._driver.close();
-        });
+    get Recipes() {
+        return this._recipes;
     }
-    query(q, params) {
+    parse(folder) {
         return __awaiter(this, void 0, void 0, function* () {
-            const session = this._driver.session();
-            let result = undefined;
-            try {
-                result = yield session.run(q, params);
+            const filenames = yield fs.readdir(folder);
+            for (const file of filenames) {
+                if (Path.extname(file) === ".md") {
+                    const recipe = new Recipe();
+                    yield recipe.parse(Path.join(folder, file));
+                    this._recipes.push(recipe);
+                }
             }
-            finally {
-                yield session.close();
-            }
-            return result;
         });
     }
 }

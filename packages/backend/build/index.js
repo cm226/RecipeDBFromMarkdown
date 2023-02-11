@@ -8,18 +8,20 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import express from "express";
-import { Neo4JDriver } from "./db/Neo4JDriver.js";
-import { Recipe } from "./recipe.js";
+import { DataLayer } from "./data/DataLayer";
 const app = express();
 const port = 8000;
-const neo4J = new Neo4JDriver();
 app.get("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const recipe = new Recipe();
-    recipe.parse("testData/Toad in the hole.md").then(() => {
-        res.send(recipe.FileName + " " + recipe.Ingredients);
-    });
+    const data = new DataLayer();
+    yield data.parse("testData");
+    const json = data.Recipes.map((r) => {
+        return JSON.stringify({
+            name: r.FileName,
+            ingreds: JSON.stringify(r.Ingredients),
+        });
+    }).join(",");
+    res.send(json);
 }));
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });
-neo4J.close();
