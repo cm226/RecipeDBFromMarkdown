@@ -10,11 +10,11 @@ app.get("/", async (req: Request, res: Response) => {
   const json = data.Recipes.map((r) => {
     return JSON.stringify({
       name: r.FileName,
-      ingreds: JSON.stringify(r.Ingredients),
+      ingreds: r.Ingredients,
     });
   }).join(",");
 
-  res.send(json);
+  res.send(`[${json}]`);
 });
 
 app.listen(port, () => {
