@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run start --workspaces"
+    "start": "concurrently \"npm run start -w=@shopping/frontend\" \"npm run start -w=@shopping/backend\" ",
+    "build": "npm run build --workspaces"
   },
   "author": "",
   "license": "ISC",
@@ -13,5 +14,8 @@
   "exports": "./dist/index.js",
   "workspaces": [
     "./packages/*"
-  ]
+  ],
+  "dependencies": {
+    "concurrently": "^7.6.0"
+  }
 }

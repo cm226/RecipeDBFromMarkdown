@@ -7,19 +7,15 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Program",
+      "name": "Launch backend",
       "skipFiles": ["<node_internals>/**", "node_modules/**"],
       "cwd": "${workspaceRoot}",
+      "runtimeExecutable": "npm",
       "internalConsoleOptions": "openOnSessionStart",
       "env": {
         "LOCAL_MODE": "true"
       },
-      "args": [
-        "--experimental-specifier-resolution=node",
-        "--loader",
-        "ts-node/esm",
-        "src/index.ts"
-      ]
+      "runtimeArgs": ["start"]
     }
   ]
 }

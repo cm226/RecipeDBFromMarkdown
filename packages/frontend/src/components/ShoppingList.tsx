@@ -5,12 +5,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Recipe } from "../data/RecipeStore";
-
-export interface Ingredient {
-  name: string;
-  recipe: string;
-}
+import { Ingredient } from "@shopping/types";
 
 export interface SelectedRecipesProps {
   shoppingList: Ingredient[];

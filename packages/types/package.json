@@ -1,0 +1,13 @@
+{
+  "name": "@shopping/types",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "typescript": "^4.9.5"
+  },
+  "scripts": {
+    "start": "start nodemon --watch './**/*.ts' ./src/index.ts",
+    "build": "rimraf ./build && tsc"
+  },
+  "types": "./build/saveState.d.ts"
+}

@@ -3,31 +3,47 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 
 import Container from "@mui/material/Container";
+import CircularProgress from "@mui/material/CircularProgress";
 import "./App.css";
-import { Recipe, RecipeStore } from "./data/RecipeStore";
+import { RecipeStore } from "./data/RecipeStore";
 import { RecipePicker } from "./components/RecipePicker";
 
-import Paper from "@mui/material/Paper";
-import { styled } from "@mui/material/styles";
 import { SelectedRecipes } from "./components/SelectedRecipes";
 import { AddExtra } from "./components/AddExtra";
-import { Ingredient, ShoppingList } from "./components/ShoppingList";
+import { ShoppingList } from "./components/ShoppingList";
+import { ShoppingListRemoter } from "./data/ShoppingListRemoter";
+import { Recipe, Ingredient } from "@shopping/types";
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
+const listGetter = new ShoppingListRemoter();
 
-const store = new RecipeStore();
-store.populate();
+interface props {
+  store: RecipeStore;
+}
 
-function App() {
+function App(props: props) {
   const [open, setOpen] = React.useState(false);
+  const [shoppingDownloaded, setDownloaded] = React.useState(false);
   const [shoppingList, setList] = React.useState([] as Ingredient[]);
   const [selectedRecipes, setRecipeList] = React.useState([] as Recipe[]);
+
+  React.useEffect(() => {
+    listGetter.get().then((state) => {
+      if (state) {
+        setList(state.ingredients);
+        setRecipeList(state.recipes);
+      }
+      setDownloaded(true);
+    });
+  }, []);
+
+  if (shoppingDownloaded) {
+    listGetter
+      .set({
+        ingredients: shoppingList,
+        recipes: selectedRecipes,
+      })
+      .catch(() => {});
+  }
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -54,24 +70,29 @@ function App() {
     setList(shoppingList.filter((item) => item !== ingred));
   };
 
+  const selected = (
+    <Container maxWidth="sm">
+      <SelectedRecipes
+        selectedRecipes={selectedRecipes}
+        onDelete={handleDelete}
+      ></SelectedRecipes>
+      <ShoppingList
+        shoppingList={shoppingList}
+        onDelete={handleDeleteFromList}
+      ></ShoppingList>
+    </Container>
+  );
+
+  const waitingForDownload = <CircularProgress />;
+
   return (
     <div className="App">
       <Button variant="outlined" onClick={handleClickOpen}>
-        Choose Recipe
+        Choose Recipe2
       </Button>
       <AddExtra onNewItem={extraAdded}></AddExtra>
-      <RecipePicker store={store} open={open} onClose={handleClose} />
-
-      <Container maxWidth="sm">
-        <SelectedRecipes
-          selectedRecipes={selectedRecipes}
-          onDelete={handleDelete}
-        ></SelectedRecipes>
-        <ShoppingList
-          shoppingList={shoppingList}
-          onDelete={handleDeleteFromList}
-        ></ShoppingList>
-      </Container>
+      <RecipePicker store={props.store} open={open} onClose={handleClose} />
+      {shoppingDownloaded ? selected : waitingForDownload}
     </div>
   );
 }

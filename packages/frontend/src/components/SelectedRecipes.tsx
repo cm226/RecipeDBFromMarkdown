@@ -1,4 +1,4 @@
-import { Recipe } from "../data/RecipeStore";
+import { Recipe } from "@shopping/types";
 
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";

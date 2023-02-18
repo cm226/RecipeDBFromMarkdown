@@ -1,10 +1,11 @@
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Recipe, RecipeStore } from "../data/RecipeStore";
+import { RecipeStore } from "../data/RecipeStore";
 import ListItem from "@mui/material/ListItem";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
+import { Recipe } from "@shopping/types";
 
 export interface SimpleDialogProps {
   open: boolean;
