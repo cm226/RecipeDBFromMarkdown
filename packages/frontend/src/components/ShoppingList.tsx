@@ -5,6 +5,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ListItemText from "@mui/material/ListItemText";
 import { Ingredient } from "@shopping/types";
 
 export interface SelectedRecipesProps {
@@ -34,9 +35,13 @@ export function ShoppingList(props: SelectedRecipesProps) {
                   tabIndex={-1}
                   disableRipple
                   inputProps={{ "aria-labelledby": labelId }}
-                />
-                {value.name}, {value.recipe}
-              </ListItemIcon>
+                />{" "}
+              </ListItemIcon>{" "}
+              <ListItemText
+                id={labelId}
+                primary={`${value.name}`}
+                secondary={`${value.recipe}`}
+              />
               <IconButton
                 aria-label="delete"
                 size="large"

@@ -3,8 +3,7 @@ import { Recipe } from "@shopping/types";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
-import IconButton from "@mui/material/IconButton";
-import DeleteIcon from "@mui/icons-material/Delete";
+import Chip from "@mui/material/Chip";
 
 export interface SelectedRecipesProps {
   selectedRecipes: Recipe[];
@@ -25,14 +24,11 @@ export function SelectedRecipes(props: SelectedRecipesProps) {
       {props.selectedRecipes.map((selected) => {
         return (
           <Grid key={selected.name} item xs>
-            <Item>{selected.name}</Item>
-            <IconButton
-              aria-label="delete"
-              size="large"
-              onClick={() => props.onDelete(selected)}
-            >
-              <DeleteIcon fontSize="inherit" />
-            </IconButton>
+            <Chip
+              label={selected.name}
+              variant="outlined"
+              onDelete={() => props.onDelete(selected)}
+            />
           </Grid>
         );
       })}

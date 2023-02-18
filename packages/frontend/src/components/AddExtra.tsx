@@ -10,6 +10,7 @@ export function AddExtra(props: AddExtraProps) {
       id="standard-basic"
       label="Extras"
       variant="standard"
+      fullWidth={true}
       onKeyDown={(ev) => {
         if (ev.key === "Enter") {
           ev.preventDefault();

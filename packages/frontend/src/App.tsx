@@ -1,18 +1,35 @@
 import * as React from "react";
 
-import Button from "@mui/material/Button";
-
 import Container from "@mui/material/Container";
 import CircularProgress from "@mui/material/CircularProgress";
 import "./App.css";
 import { RecipeStore } from "./data/RecipeStore";
 import { RecipePicker } from "./components/RecipePicker";
+import { ThemeProvider, createTheme, makeStyles } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
 
 import { SelectedRecipes } from "./components/SelectedRecipes";
 import { AddExtra } from "./components/AddExtra";
 import { ShoppingList } from "./components/ShoppingList";
 import { ShoppingListRemoter } from "./data/ShoppingListRemoter";
 import { Recipe, Ingredient } from "@shopping/types";
+import Toolbar from "@mui/material/Toolbar";
+import AppBar from "@mui/material/AppBar";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+import IconButton from "@mui/material/IconButton";
+import Divider from "@mui/material/Divider";
+
+const lightTheme = createTheme({
+  palette: {
+    mode: "light",
+  },
+});
+
+const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+  },
+});
 
 const listGetter = new ShoppingListRemoter();
 
@@ -76,6 +93,16 @@ function App(props: props) {
         selectedRecipes={selectedRecipes}
         onDelete={handleDelete}
       ></SelectedRecipes>
+      <Divider
+        sx={{
+          color: "#90caf9",
+          "&::before, &::after": {
+            borderColor: "#90caf9",
+          },
+        }}
+      >
+        Shopping List
+      </Divider>
       <ShoppingList
         shoppingList={shoppingList}
         onDelete={handleDeleteFromList}
@@ -86,14 +113,32 @@ function App(props: props) {
   const waitingForDownload = <CircularProgress />;
 
   return (
-    <div className="App">
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Choose Recipe2
-      </Button>
-      <AddExtra onNewItem={extraAdded}></AddExtra>
-      <RecipePicker store={props.store} open={open} onClose={handleClose} />
-      {shoppingDownloaded ? selected : waitingForDownload}
-    </div>
+    <ThemeProvider theme={lightTheme}>
+      <CssBaseline />
+      <div className="App">
+        <RecipePicker store={props.store} open={open} onClose={handleClose} />
+        {shoppingDownloaded ? selected : waitingForDownload}
+        <ThemeProvider theme={darkTheme}>
+          <AppBar
+            position="fixed"
+            color="primary"
+            sx={{ top: "auto", bottom: 0 }}
+          >
+            <Toolbar>
+              <IconButton
+                color="primary"
+                onClick={handleClickOpen}
+                size="large"
+              >
+                <MenuBookIcon />
+              </IconButton>
+              <AddExtra onNewItem={extraAdded}></AddExtra>
+            </Toolbar>
+          </AppBar>
+        </ThemeProvider>
+        <Toolbar />
+      </div>
+    </ThemeProvider>
   );
 }
 
