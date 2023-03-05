@@ -129,6 +129,7 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-packages/certs/*
+packages/certs/cert/
+packages/certs/root/
 packages/backend/big_chub/*
 rclone.conf
