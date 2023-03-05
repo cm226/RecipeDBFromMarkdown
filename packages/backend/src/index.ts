@@ -1,13 +1,28 @@
-import { readFile, readFileSync, writeFile, writeFileSync } from "atomically";
+import { readFile, writeFileSync } from "atomically";
 import express, { Express, Request, Response } from "express";
 import { promises as fs } from "fs";
+import fss from "fs";
 import path from "path";
 import { DataLayer } from "./data/DataLayer";
 import { state } from "@shopping/types";
 
+import https from "https";
+
 const stateFile = "./state.json";
 const app: Express = express();
 const port = 8000;
+
+var server = https.createServer(
+  {
+    key: fss.readFileSync("../certs/cert/test.key"),
+    cert: fss.readFileSync("../certs/cert/test.crt"),
+    ca: fss.readFileSync("../certs/root/ca.crt"),
+
+    requestCert: false,
+    rejectUnauthorized: false,
+  },
+  app
+);
 
 export interface Ingredient {
   name: string;
@@ -25,7 +40,7 @@ app.use(express.json());
 
 app.get("/recipes", async (req: Request, res: Response) => {
   const data = new DataLayer();
-  await data.parse("testData");
+  await data.parse("big_chub");
   const json = data.Recipes.map((r) => {
     return JSON.stringify({
       name: r.FileName,
@@ -64,6 +79,9 @@ app.get("/restore", async (req: Request, res: Response) => {
     });
 });
 
-app.listen(port, () => {
+server.listen(port, undefined, undefined, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });
+// app.listen(port, () => {
+//   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+// });

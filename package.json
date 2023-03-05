@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "downloadCerts": "robocopy \\\\TRUENAS\\programming\\certs\\truenasCurrent packages/certs /S",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "concurrently \"npm run start -w=@shopping/frontend\" \"npm run start -w=@shopping/backend\" ",
     "build": "npm run build --workspaces"

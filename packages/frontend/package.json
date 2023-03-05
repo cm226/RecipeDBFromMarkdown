@@ -2,7 +2,7 @@
   "name": "@shopping/frontend",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8000",
+  "proxy": "https://localhost:8000",
   "devDependencies": {
     "@shopping/types": "file:../types"
   },

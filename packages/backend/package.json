@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@shopping/frontend": "file:../frontend",
+    "@shopping/certs": "file:../certs",
     "atomically": "^2.0.1",
     "express": "^4.18.2",
     "remark": "^14.0.2",
