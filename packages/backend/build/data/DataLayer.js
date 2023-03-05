@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { promises as fs } from "fs";
 import Path from "path";
-import { Recipe } from "./Recipe";
+import { Recipe } from "./Recipe.js";
 export class DataLayer {
     constructor() {
         this._recipes = [];

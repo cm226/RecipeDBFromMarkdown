@@ -11,7 +11,7 @@ import { readFile, writeFileSync } from "atomically";
 import express from "express";
 import { promises as fs } from "fs";
 import path from "path";
-import { DataLayer } from "./data/DataLayer";
+import { DataLayer } from "./data/DataLayer.js";
 const stateFile = "./state.json";
 const app = express();
 const port = 8000;
@@ -20,7 +20,7 @@ app.use(express.static(path.join("../frontend", "build")));
 app.use(express.json());
 app.get("/recipes", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = new DataLayer();
-    yield data.parse("testData");
+    yield data.parse("big_chub");
     const json = data.Recipes.map((r) => {
         return JSON.stringify({
             name: r.FileName,
@@ -30,8 +30,15 @@ app.get("/recipes", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     res.send(`[${json}]`);
 }));
 app.post("/save", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const state = req.body;
-    writeFileSync(stateFile, JSON.stringify(state));
+    try {
+        const state = req.body;
+        writeFileSync(stateFile, JSON.stringify(state));
+    }
+    catch (e) {
+        console.error("Error while saving: " + e);
+        res.sendStatus(500);
+    }
+    res.sendStatus(200);
 }));
 app.get("/restore", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     fs.access(stateFile)
@@ -45,8 +52,8 @@ app.get("/restore", (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         });
     })
         .catch(() => {
-        const state;
-        res.send("[]");
+        const state = { ingredients: [], recipes: [] };
+        res.send(JSON.stringify(state));
     });
 }));
 app.listen(port, () => {

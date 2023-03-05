@@ -3,7 +3,7 @@ import express, { Express, Request, Response } from "express";
 import { promises as fs } from "fs";
 import fss from "fs";
 import path from "path";
-import { DataLayer } from "./data/DataLayer";
+import { DataLayer } from "./data/DataLayer.js";
 import { state } from "@shopping/types";
 
 import https from "https";

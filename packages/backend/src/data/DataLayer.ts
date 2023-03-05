@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 import Path from "path";
-import { Recipe } from "./Recipe";
+import { Recipe } from "./Recipe.js";
 
 export class DataLayer {
   private _recipes: Recipe[] = [];
