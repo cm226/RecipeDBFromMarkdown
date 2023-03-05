@@ -17,7 +17,7 @@ export function ShoppingList(props: SelectedRecipesProps) {
   const handleToggle = (value: string) => () => {};
 
   return (
-    <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+    <List sx={{ width: "100%" }}>
       {props.shoppingList.map((value) => {
         const labelId = `checkbox-list-label-${value.name}`;
 
@@ -41,6 +41,9 @@ export function ShoppingList(props: SelectedRecipesProps) {
                 id={labelId}
                 primary={`${value.name}`}
                 secondary={`${value.recipe}`}
+                sx={{
+                  color: "textForeground.main",
+                }}
               />
               <IconButton
                 aria-label="delete"

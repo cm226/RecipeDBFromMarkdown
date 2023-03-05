@@ -5,7 +5,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import "./App.css";
 import { RecipeStore } from "./data/RecipeStore";
 import { RecipePicker } from "./components/RecipePicker";
-import { ThemeProvider, createTheme, makeStyles } from "@mui/material/styles";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
 import { SelectedRecipes } from "./components/SelectedRecipes";
@@ -19,17 +19,52 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import IconButton from "@mui/material/IconButton";
 import Divider from "@mui/material/Divider";
 
-const lightTheme = createTheme({
+const theme = createTheme({
   palette: {
-    mode: "light",
+    background: {
+      default: "#1e6883",
+    },
+    primary: {
+      main: "#fc8727",
+    },
+    secondary: {
+      main: "#6fcdd5",
+    },
+    background2: {
+      main: "#e4eefa",
+    },
+    textForeground: {
+      main: "#cdf0ff",
+      background2: "#6ba5bd",
+    },
   },
 });
 
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
-  },
-});
+declare module "@mui/material/styles" {
+  interface Palette {
+    background2: Palette["primary"];
+    textForeground: Palette["primary"];
+  }
+
+  interface PaletteOptions {
+    background2: PaletteOptions["primary"];
+    textForeground: PaletteOptions["primary"];
+  }
+
+  interface PaletteColor {
+    darker?: string;
+  }
+
+  interface SimplePaletteColorOptions {
+    background2?: string;
+  }
+}
+
+declare module "@mui/material/AppBar" {
+  interface AppBarPropsColorOverrides {
+    background2: true;
+  }
+}
 
 const listGetter = new ShoppingListRemoter();
 
@@ -89,20 +124,11 @@ function App(props: props) {
 
   const selected = (
     <Container maxWidth="sm">
+      <h1>Shopping List</h1>
       <SelectedRecipes
         selectedRecipes={selectedRecipes}
         onDelete={handleDelete}
       ></SelectedRecipes>
-      <Divider
-        sx={{
-          color: "#90caf9",
-          "&::before, &::after": {
-            borderColor: "#90caf9",
-          },
-        }}
-      >
-        Shopping List
-      </Divider>
       <ShoppingList
         shoppingList={shoppingList}
         onDelete={handleDeleteFromList}
@@ -113,15 +139,15 @@ function App(props: props) {
   const waitingForDownload = <CircularProgress />;
 
   return (
-    <ThemeProvider theme={lightTheme}>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       <div className="App">
         <RecipePicker store={props.store} open={open} onClose={handleClose} />
         {shoppingDownloaded ? selected : waitingForDownload}
-        <ThemeProvider theme={darkTheme}>
+        <ThemeProvider theme={theme}>
           <AppBar
             position="fixed"
-            color="primary"
+            color="background2"
             sx={{ top: "auto", bottom: 0 }}
           >
             <Toolbar>

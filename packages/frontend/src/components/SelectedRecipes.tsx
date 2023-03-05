@@ -1,8 +1,6 @@
 import { Recipe } from "@shopping/types";
 
 import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
-import { styled } from "@mui/material/styles";
 import Chip from "@mui/material/Chip";
 
 export interface SelectedRecipesProps {
@@ -10,17 +8,21 @@ export interface SelectedRecipesProps {
   onDelete: (r: Recipe) => void;
 }
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
-
 export function SelectedRecipes(props: SelectedRecipesProps) {
   return (
-    <Grid container spacing={3}>
+    <Grid
+      container
+      sx={{
+        backgroundColor: "primary.main",
+        color: "textForeground.main",
+        borderRadius: "16px",
+        borderStyle: "solid",
+        borderColor: "black",
+        borderWidth: "2px",
+        boxShadow: 10,
+        padding: "20px",
+      }}
+    >
       {props.selectedRecipes.map((selected) => {
         return (
           <Grid key={selected.name} item xs>
@@ -28,6 +30,7 @@ export function SelectedRecipes(props: SelectedRecipesProps) {
               label={selected.name}
               variant="outlined"
               onDelete={() => props.onDelete(selected)}
+              sx={{ color: "textForeground.main" }}
             />
           </Grid>
         );
