@@ -7,8 +7,8 @@
     "downloadCerts": "robocopy \\\\TRUENAS\\programming\\certs\\truenasCurrent packages/certs /S",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "concurrently \"npm run start -w=@shopping/frontend\" \"npm run start -w=@shopping/backend\" ",
-    "build": "npm run build --workspaces",
-    "buildDocker": "npm run downloadCerts && npm run build && docker build -t shopping ."
+    "build": "npm run build --workspaces --if-present",
+    "buildDocker": "npm run downloadCerts & npm run build & docker build -t shopping ."
   },
   "author": "",
   "license": "ISC",

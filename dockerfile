@@ -12,8 +12,11 @@ RUN cd /app/backend && npm install
 
 COPY ./packages/backend /app/backend
 COPY ./packages/frontend/build /app/frontend/build
+COPY ./packages/certs/ /app/certs
 
 
 RUN rclone sync bugChub:Obsidian/big_chub/Recipe /app/backend/big_chub
 
 cmd cd /app/backend && node build/index.js
+
+EXPOSE 8000

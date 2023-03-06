@@ -5,6 +5,8 @@ import fss from "fs";
 import path from "path";
 import { DataLayer } from "./data/DataLayer.js";
 import { state } from "@shopping/types";
+import { CronJob } from "cron";
+import { exec } from "child_process";
 
 import https from "https";
 
@@ -82,6 +84,14 @@ app.get("/restore", async (req: Request, res: Response) => {
 server.listen(port, undefined, undefined, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
 });
-// app.listen(port, () => {
-//   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
-// });
+
+var job = new CronJob(
+  "0 0 10 * * *",
+  function () {
+    exec("rclone sync bugChub:Obsidian/big_chub/Recipe /app/backend/big_chub");
+  },
+  null,
+  true
+);
+
+job.start();
