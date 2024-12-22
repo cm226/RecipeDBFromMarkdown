@@ -4,11 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "downloadCerts": "robocopy \\\\TRUENAS\\programming\\certs\\truenasCurrent packages/certs /S",
+    "downloadCerts": "scp -r Craig@192.168.1.71:/mnt/commonwealth/Programming/certs/truenasCurrent ./packages/certs/",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "concurrently \"npm run start -w=@shopping/frontend\" \"npm run start -w=@shopping/backend\" ",
     "build": "npm run build --workspaces --if-present",
-    "buildDocker": "npm run downloadCerts & npm run build & docker build -t shopping . && docker save --output shopping.tar shopping"
+    "buildDocker": "npm run downloadCerts && npm run build && docker build -t shopping . && docker save --output shopping.tar shopping",
+    "pushContainer" : "scp ./shopping.tar Craig@192.168.1.71:/mnt/commonwealth/DockerImages"
   },
   "author": "",
   "license": "ISC",
