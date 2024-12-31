@@ -9,7 +9,7 @@
     "start": "concurrently \"npm run start -w=@shopping/frontend\" \"npm run start -w=@shopping/backend\" ",
     "build": "npm run build --workspaces --if-present",
     "buildDocker": "npm run downloadCerts && npm run build && docker build -t shopping . && docker save --output shopping.tar shopping",
-    "pushContainer" : "scp ./shopping.tar Craig@192.168.1.71:/mnt/commonwealth/DockerImages"
+    "pushContainer" : "scp ./shopping.tar Craig@192.168.1.71:/mnt/commonwealth/DockerImages && ssh Craig@192.168.1.71 -t 'docker image load -i /mnt/commonwealth/DockerImages/shopping.tar'"
   },
   "author": "",
   "license": "ISC",
